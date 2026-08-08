@@ -2311,20 +2311,13 @@ video:-webkit-full-screen {
   .spatial-hand-label { padding-inline: 14px 24px; font-size: 18px; }
   .spatial-hand-option { padding-inline: 8px; font-size: 18px; }
   .experiment-panel .spatial-benchmark { width: 100%; }
-  .spatial-benchmark table {
-    min-width: 0;
-    font-size: clamp(8px, 2.3vw, 11px);
-  }
+  .spatial-benchmark table { min-width: 560px; }
   .spatial-benchmark .method-column { width: 30%; }
   .spatial-benchmark .hand-column { width: 16%; }
   .spatial-benchmark .metric-column { width: 18%; }
   .spatial-benchmark th,
-  .spatial-benchmark td { padding: 6px 3px; }
-  .spatial-benchmark thead th,
-  .spatial-benchmark tbody th {
-    font-size: clamp(8px, 2.3vw, 11px);
-  }
-  .spatial-benchmark tbody th { padding-left: 6px; }
+  .spatial-benchmark td { padding: 7px 6px; }
+  .spatial-benchmark tbody th { padding-left: 8px; }
   .spatial-video-grid {
     grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: clamp(4px, 1.1vw, 8px) clamp(4px, 1.4vw, 10px);
