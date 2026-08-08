@@ -2280,13 +2280,27 @@ video:-webkit-full-screen {
     z-index: 12;
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 3px;
+    container-type: inline-size;
+    gap: min(3px, .8vw);
     margin-top: 4px;
-    padding: 6px 0;
+    padding: min(6px, .6vw) 0;
     background: var(--raised);
   }
-  .quick-tab { width: 100%; min-height: 32px; padding-inline: 3px; }
-  .quick-tab b { font-size: 10px; letter-spacing: .03em; }
+  .quick-tab {
+    width: 100%;
+    min-height: 0;
+    aspect-ratio: 5 / 1;
+    padding: .3cqi .45cqi;
+    border-width: .15cqi;
+  }
+  .quick-tab:first-child { transform-origin: left center; }
+  .quick-tab:last-child { transform-origin: right center; }
+  .quick-tab b {
+    font-size: 1.6cqi;
+    line-height: 1;
+    letter-spacing: .02em;
+    white-space: nowrap;
+  }
   .experiment-results { scroll-margin-top: 122px; margin-top: 24px; padding-top: 32px; }
   .experiment-panel { scroll-margin-top: 122px; }
   .experiment-panel + .experiment-panel { margin-top: 72px; padding-top: 48px; }
