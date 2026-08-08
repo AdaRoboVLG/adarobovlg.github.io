@@ -1,0 +1,1710 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Adaptive Visual-Language Grasp Learning through Composable Foundation-Model Priors">
+  <title>AdaRoboVLG Project Hub</title>
+  <link rel="icon" type="image/png" href="/assets/icon/hand.png?v=20260804">
+  <link rel="stylesheet" href="vendor/academicons/css/academicons.min.css">
+  <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="concept.css">
+</head>
+<body class="anonymous-site">
+  <header class="site-header">
+    <nav class="nav shell" aria-label="Primary navigation">
+      <a class="nav-brand" href="#top">AdaRoboVLG</a>
+      <div class="nav-links">
+        <a class="nav-section-link" href="#video" data-nav-section="video">Video</a>
+        <a class="nav-section-link" href="#abstract" data-nav-section="abstract">Abstract</a>
+        <a class="nav-section-link" href="#method" data-nav-section="method">Method</a>
+        <a class="nav-section-link" href="#experiments" data-nav-section="experiments">Experiments</a>
+      </div>
+      <span class="nav-balance" aria-hidden="true"></span>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="paper-title">
+      <img class="hero-bg" src="concepts/assets/hero.png" alt="A dual-arm robot grasping clothes from a pile">
+      <div class="shell hero-copy">
+        <p class="project-name">AdaRoboVLG</p>
+        <h1 class="paper-title" id="paper-title">
+          <span>Adaptive Vision-Language Grasping via Composable</span>
+          <span>Foundation Priors and Generalizable Grasp Synthesis</span>
+        </h1>
+      </div>
+    </section>
+
+    <section class="section" id="video">
+      <div class="shell">
+        <div class="video-heading">
+          <span class="section-label">PRESENTATION VIDEO</span>
+          <!-- <h2 class="section-title">The complete story, from motivation to deployment.</h2>
+          <p class="video-note">A single overview video presents the problem, framework, component-level evidence, and real-world demonstrations.</p> -->
+        </div>
+        <div class="video-frame">
+          <iframe
+            src="https://www.youtube.com/embed/Uc-NbYyS9Pc?controls=1&amp;rel=0&amp;playsinline=1"
+            title="AdaRoboVLG presentation video"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="abstract">
+      <div class="shell section-rule abstract-flow">
+        <span class="section-label">01 / ABSTRACT</span>
+        <!-- <p class="abstract-body">AdaRoboVLG is a generalizable vision-language grasping framework that composes specialized foundation-model priors with a shared base policy for task-adaptive robotic grasping.</p> -->
+        <p class="abstract-body">This paper proposes AdaRoboVLG, a task-adaptive Vision-Language-Grasp (VLG) framework that supports generalizable grasp synthesis across different robotic hands. Unlike existing VLG methods that tightly couple foundation models with end-to-end grasp policies, AdaRoboVLG learns an efficient generalizable base policy that generates and evaluates physically feasible grasp candidates through explicit kinematic mapping and force-closure-based stability estimation, while offloading task-dependent understanding to specialized foundation-model modules. These modules provide composable priors that are integrated into the grasp synthesis process, enabling contextually adaptive grasp synthesis without retraining the underlying grasp policy. Through extensive simulation and real-world experiments, we demonstrate that (i) the base policy exhibits efficient learning and strong cross-hand generalization, (ii) the framework effectively incorporates spatial, cognitive, and temporal priors to address three representative grasping challenges without compromising grasp synthesis performance compared to state-of-the-art methods, and (iii) these priors can operate jointly to enable functional grasping in cluttered and dynamic environments. These results indicate that decoupling physical grasp synthesis from task-dependent understanding provides a scalable paradigm for robotic grasping, allowing future advances in foundation models to be directly translated into improved grasp capabilities without redesigning or retraining the underlying grasp policy.</p>
+      </div>
+    </section>
+
+    <section class="section" id="method">
+      <div class="shell">
+        <span class="section-label">02 / METHOD</span>
+        <figure class="method-summary-figure">
+          <img src="/assets/method/summary-framework-flow.png"
+          alt="Task contexts and composable foundation priors form a structured grasp interface for the base grasp policy and executable grasps">
+        </figure>
+        <p class="section-intro">The key idea of AdaRoboVLG is to decouple task-driven understanding from physical grasp synthesis by leveraging diverse foundation-model priors. It first composes diverse foundation-model priors to understand task contexts and organizes their outputs into a structured grasp interface. Based on this interface, a shared base policy then generates executable grasp poses and enables generalization across different robotic hands.</p>
+        <figure class="method-figure">
+          <img src="/assets/method/overview-black-background.png"
+          alt="AdaRoboVLG method overview">
+        </figure>
+        <div class="method-component-copy" aria-label="Core components of AdaRoboVLG">
+          <p><strong class="method-term method-term-interface">(1) Structured Grasp Interface.</strong> The interface organizes task-dependent information into a unified representation consisting of object geometry, Contact Grasp Representations (CGRs), and hand-compatible grasp types.</p>
+          <p><strong class="method-term method-term-policy">(2) Base Grasp Policy.</strong> The policy first converts this interface into executable grasp poses through hand-specific grasp mapping. It evaluates candidate grasps using a hand-object interaction (HOI) representation and a hand-agnostic grasp decision model, enabling generalizable grasp synthesis across different robotic hands.</p>
+          <p><strong class="method-term method-term-priors">(3) Composable Foundation Priors.</strong> The <em class="method-prior-term is-spatial">spatial prior</em> module extracts scene-level CGRs for clutter-aware grasping; the <em class="method-prior-term is-cognitive">cognitive prior</em> module infers task-consistent grasp intents to support functional grasp synthesis; and the <em class="method-prior-term is-temporal">temporal prior</em> module estimates target motion and continuously updates the structured grasp interface for dynamic grasping.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="experiments">
+      <div class="shell">
+        <span class="section-label">03 / EXPERIMENTS</span>
+        <!-- <h2 class="section-title">Six questions, from isolated capabilities to the full system.</h2> -->
+        <p class="section-intro">To validate the effectiveness of AdaRoboVLG, we organize the experiments around six key questions. At the component level, we evaluate the cross-hand generalization capability of the <em class="experiment-intro-term is-base">base grasp policy</em> and the contribution of individual <em class="experiment-intro-term is-spatial">spatial</em>, <em class="experiment-intro-term is-cognitive">cognitive</em>, and <em class="experiment-intro-term is-temporal">temporal</em> priors in simulation. At the system level, we further evaluate the <em class="experiment-intro-term is-composability">composability</em> of these priors in complex real-world tasks and the <em class="experiment-intro-term is-extensibility">extensibility</em> of the framework toward new capabilities.</p>
+
+        <div class="experiment-board-scroll">
+        <div class="experiment-board" id="experiment-design" role="tablist" aria-label="Six experimental questions">
+          <div class="experiment-group group-base">
+            <p class="group-label">Base Policy</p>
+            <button class="experiment-tab is-active" type="button" role="tab" id="tab-q1" aria-selected="true" aria-controls="panel-q1" data-experiment="q1">
+              <span class="question-id">Q1</span>
+              <span class="question-copy"><strong>Generalizable Grasp Policy</strong><small>Can the base grasp policy be shared across different robotic hands?</small></span>
+            </button>
+          </div>
+          <div class="experiment-group group-priors">
+            <p class="group-label">Complementary Priors</p>
+            <div class="experiment-grid three">
+              <button class="experiment-tab" type="button" role="tab" id="tab-q2" aria-selected="false" aria-controls="panel-q2" data-experiment="q2">
+                <span class="question-id">Q2</span>
+                <span class="question-copy"><strong>Spatial Feasibility</strong><small>Can the spatial prior provide reliable spatial constraints?</small></span>
+              </button>
+              <button class="experiment-tab" type="button" role="tab" id="tab-q3" aria-selected="false" aria-controls="panel-q3" data-experiment="q3">
+                <span class="question-id">Q3</span>
+                <span class="question-copy"><strong>Cognitive Accuracy</strong><small>Can the cognitive prior infer correct grasp functionality?</small></span>
+              </button>
+              <button class="experiment-tab" type="button" role="tab" id="tab-q4" aria-selected="false" aria-controls="panel-q4" data-experiment="q4">
+                <span class="question-id">Q4</span>
+                <span class="question-copy"><strong>Temporal Stability</strong><small>Can the temporal prior enable consistent grasp updates?</small></span>
+              </button>
+            </div>
+          </div>
+          <div class="experiment-group group-system">
+            <p class="group-label">System Evaluation</p>
+            <div class="experiment-grid two">
+              <button class="experiment-tab" type="button" role="tab" id="tab-q5" aria-selected="false" aria-controls="panel-q5" data-experiment="q5">
+                <span class="question-id">Q5</span>
+                <span class="question-copy"><strong>Composability</strong><small>Can the three priors jointly handle more complex real-world tasks?</small></span>
+              </button>
+              <button class="experiment-tab" type="button" role="tab" id="tab-q6" aria-selected="false" aria-controls="panel-q6" data-experiment="q6">
+                <span class="question-id">Q6</span>
+                <span class="question-copy"><strong>Extensibility</strong><small>Can the framework be extended to support new capabilities?</small></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <nav class="experiment-quicknav" aria-label="Experiment quick navigation">
+          <button class="quick-tab is-active" type="button" data-experiment="q1" aria-selected="true"><b>Base Policy</b></button>
+          <button class="quick-tab" type="button" data-experiment="q2" aria-selected="false"><b>Spatial Prior</b></button>
+          <button class="quick-tab" type="button" data-experiment="q3" aria-selected="false"><b>Cogntive Prior</b></button>
+          <button class="quick-tab" type="button" data-experiment="q4" aria-selected="false"><b>Temporal Prior</b></button>
+          <button class="quick-tab" type="button" data-experiment="q5" aria-selected="false"><b>Composability</b></button>
+          <button class="quick-tab" type="button" data-experiment="q6" aria-selected="false"><b>Extensibility</b></button>
+        </nav>
+
+        <div class="experiment-results" aria-live="polite">
+          <article class="experiment-panel" id="panel-q1" role="tabpanel" aria-labelledby="tab-q1" data-experiment-panel="q1">
+            <div class="panel-copy"><span>Experiment (1/6): Evaluation of the Base Policy for General Grasp Synthesis</span>
+              <!-- <h3>A compact, hand-agnostic interaction space.</h3> -->
+              <p>The HOI representation (a) is inherently compact and hand-agnostic. It not only (b) improves the learning efficiency of the grasp decision model, achieving faster convergence and lower training loss, but also (c) enables joint training across different robotic hands, facilitating cross-hand generalization of the base grasp policy.</p></div>
+            <div class="q1-evidence-grid" aria-label="Base policy evaluation results">
+              <figure class="q1-evidence-item">
+                <div class="q1-evidence-media"><img src="assets/exp1_base_policy/hoi_tsne.png" alt="Hand-agnostic HOI embedding shared by DH3, Allegro, and Inspire hands"></div>
+                <figcaption><strong>(a) Hand-agnostic HOI Space</strong></figcaption>
+              </figure>
+              <figure class="q1-evidence-item">
+                <div class="q1-evidence-media"><img src="assets/exp1_base_policy/training_convergence.png" alt="Training loss convergence comparison for three interaction representations"></div>
+                <figcaption><strong>(b) Training Convergence</strong></figcaption>
+              </figure>
+              <figure class="q1-evidence-item">
+                <div class="q1-evidence-media"><img src="assets/exp1_base_policy/cross_hand_accuracy.png" alt="Cross-hand grasp-decision accuracy matrix for DH3, Allegro, and Inspire hands"></div>
+                <figcaption><strong>(c) Cross-hand Accuracy</strong></figcaption>
+              </figure>
+            </div>
+          </article>
+          <article class="experiment-panel" id="panel-q2" role="tabpanel" aria-labelledby="tab-q2" data-experiment-panel="q2">
+            <div class="panel-copy"><span>Experiment (2/6): Evaluation of the Spatial Prior for Clutter-Aware Grasping</span>
+              <!-- <h3>Spatial constraints remain reliable as scenes change.</h3> -->
+              <p>To validate the spatial prior for clutter-aware grasping, we evaluate AdaRoboVLG on the DexGraspNet 2.0 benchmark across three robotic hands and diverse clutter levels.</p>
+            </div>
+            <div class="spatial-hand-switcher" role="radiogroup" aria-label="Multi-finger robotic hand">
+              <span class="spatial-hand-label">Clutter-aware Grasping</span>
+              <label class="spatial-hand-option">
+                <input type="radio" name="spatial-hand" value="dh3" aria-controls="spatial-videos-dh3" checked>
+                <span class="spatial-hand-radio" aria-hidden="true"></span>
+                <span>DH3 (3F)</span>
+              </label>
+              <label class="spatial-hand-option">
+                <input type="radio" name="spatial-hand" value="allegro" aria-controls="spatial-videos-allegro">
+                <span class="spatial-hand-radio" aria-hidden="true"></span>
+                <span>Allegro (4F)</span>
+              </label>
+              <label class="spatial-hand-option">
+                <input type="radio" name="spatial-hand" value="inspire" aria-controls="spatial-videos-inspire">
+                <span class="spatial-hand-radio" aria-hidden="true"></span>
+                <span>Inspire (5F)</span>
+              </label>
+            </div>
+            <div class="spatial-hand-panels">
+          <section class="spatial-video-panel" id="spatial-videos-dh3" data-spatial-hand-panel="dh3" aria-label="DH3 (3F) scene videos" aria-hidden="false">
+            <div class="spatial-video-grid">
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0100">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0100.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0100</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0105">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0105.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0105</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0110">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0110.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0110</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0115">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0115.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0115</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0120">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0120.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0120</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0125">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0125.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0125</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0130">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0130.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0130</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0135">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0135.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0135</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0140">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0140.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0140</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0145">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0145.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0145</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0150">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0150.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0150</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0155">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0155.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0155</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0160">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0160.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0160</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0165">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0165.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0165</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0170">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0170.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0170</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0175">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0175.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0175</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0180">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0180.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0180</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="DH3 (3F), scene 0185">
+                  <source data-src="/assets/exp2_spatial_prior/dh3/scene_0185.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0185</figcaption>
+              </figure>
+            </div>
+          </section>
+          <section class="spatial-video-panel" id="spatial-videos-allegro" data-spatial-hand-panel="allegro" aria-label="Allegro (4F) scene videos" hidden aria-hidden="true">
+            <div class="spatial-video-grid">
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0100">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0100.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0100</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0105">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0105.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0105</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0110">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0110.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0110</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0115">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0115.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0115</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0120">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0120.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0120</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0125">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0125.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0125</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0130">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0130.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0130</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0135">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0135.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0135</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0140">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0140.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0140</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0145">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0145.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0145</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0150">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0150.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0150</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0155">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0155.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0155</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0160">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0160.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0160</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0165">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0165.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0165</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0170">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0170.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0170</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0175">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0175.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0175</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0180">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0180.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0180</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Allegro (4F), scene 0185">
+                  <source data-src="/assets/exp2_spatial_prior/allegro/scene_0185.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0185</figcaption>
+              </figure>
+            </div>
+          </section>
+          <section class="spatial-video-panel" id="spatial-videos-inspire" data-spatial-hand-panel="inspire" aria-label="Inspire (5F) scene videos" hidden aria-hidden="true">
+            <div class="spatial-video-grid">
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0100">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0100.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0100</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0105">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0105.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0105</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0110">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0110.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0110</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0115">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0115.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0115</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0120">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0120.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0120</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0125">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0125.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0125</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0130">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0130.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0130</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0135">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0135.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0135</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0140">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0140.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0140</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0145">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0145.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0145</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0150">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0150.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0150</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0155">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0155.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0155</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0160">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0160.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0160</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0165">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0165.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0165</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0170">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0170.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0170</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0175">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0175.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0175</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0180">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0180.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0180</figcaption>
+              </figure>
+              <figure class="spatial-video-card">
+                <video muted loop playsinline preload="none" aria-label="Inspire (5F), scene 0185">
+                  <source data-src="/assets/exp2_spatial_prior/inspire/scene_0185.mp4" type="video/mp4">
+                </video>
+                <figcaption>Scene 0185</figcaption>
+              </figure>
+            </div>
+          </section>
+            </div>
+            <p class="spatial-benchmark-intro">Quantitative results demonstrate that AdaRoboVLG consistently generates spatially feasible grasps across diverse clutter levels. This robustness comes from the compact CGRs and human-inspired grasp taxonomy, which reduce the grasp search space, as well as the effective compatibility between the spatial prior and the base policy.</p>
+            <figure class="spatial-benchmark" aria-labelledby="spatial-benchmark-title">
+              <figcaption id="spatial-benchmark-title">Performance Comparison of Multi-finger Grasp Pose Synthesis on the DexGraspNet 2.0 Benchmark</figcaption>
+              <div class="spatial-benchmark-scroll">
+                <table>
+                  <colgroup>
+                    <col class="method-column">
+                    <col class="hand-column">
+                    <col class="metric-column">
+                    <col class="metric-column">
+                    <col class="metric-column">
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th rowspan="2" scope="col">Methods</th>
+                      <th rowspan="2" scope="col">Hands</th>
+                      <th colspan="3" scope="colgroup">Success Rate (%)</th>
+                    </tr>
+                    <tr>
+                      <th scope="col">Dense</th>
+                      <th scope="col">Random</th>
+                      <th scope="col">Loose</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="method-group">
+                      <th rowspan="3" scope="rowgroup">AnyDexGrasp</th>
+                      <td>DH3</td>
+                      <td><strong class="best-score">91.2</strong></td>
+                      <td>85.5</td>
+                      <td>78.2</td>
+                    </tr>
+                    <tr>
+                      <td>Allegro</td>
+                      <td><strong class="best-score">90.5</strong></td>
+                      <td>86.6</td>
+                      <td>79.4</td>
+                    </tr>
+                    <tr>
+                      <td>Inspire</td>
+                      <td><strong class="best-score">92.7</strong></td>
+                      <td>85.0</td>
+                      <td>76.1</td>
+                    </tr>
+                    <tr class="method-group">
+                      <th rowspan="3" scope="rowgroup">AnyDexGrasp<sup>*</sup></th>
+                      <td>DH3</td>
+                      <td>87.8</td>
+                      <td>86.4</td>
+                      <td>85.7</td>
+                    </tr>
+                    <tr>
+                      <td>Allegro</td>
+                      <td>88.2</td>
+                      <td>87.2</td>
+                      <td>83.8</td>
+                    </tr>
+                    <tr>
+                      <td>Inspire</td>
+                      <td>86.1</td>
+                      <td>85.4</td>
+                      <td>83.9</td>
+                    </tr>
+                    <tr class="method-group is-ours">
+                      <th rowspan="3" scope="rowgroup">AdaRoboVLG (ours)</th>
+                      <td>DH3</td>
+                      <td>90.3</td>
+                      <td><strong class="best-score">89.5</strong></td>
+                      <td><strong class="best-score">88.6</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Allegro</td>
+                      <td>89.5</td>
+                      <td><strong class="best-score">88.2</strong></td>
+                      <td><strong class="best-score">85.9</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Inspire</td>
+                      <td>88.1</td>
+                      <td><strong class="best-score">88.5</strong></td>
+                      <td><strong class="best-score">86.7</strong></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="spatial-benchmark-note">AnyDexGrasp<sup>*</sup> is a variant of AnyDexGrasp equipped with our base policy.</p>
+            </figure>
+          </article>
+          <article class="experiment-panel" id="panel-q3" role="tabpanel" aria-labelledby="tab-q3" data-experiment-panel="q3">
+            <div class="panel-copy"><span>Experiment (3/6): Evaluation of the Cognitive Prior for Functional Grasping</span><p class="cognitive-evaluation-intro">To validate the cognitive prior for functional grasping, we conduct two complementary evaluation tasks. The first evaluates grasp functionality inference on open-set instructions, while the second assesses language-guided target grasping in simulation.</p><h3>Task A: Grasp Functionality Inference</h3><p>Results from Task A demonstrate that equipping the LLM with RAG and CoT techniques significantly improves grasp functionality inference accuracy.</p></div>
+            <div class="cognitive-evidence">
+              <figure class="cognitive-benchmark" aria-labelledby="cognitive-benchmark-title">
+                <figcaption id="cognitive-benchmark-title">Grasp Functionality Inference Accuracy on an Open-Set Instruction Benchmark</figcaption>
+                <div class="cognitive-benchmark-scroll">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th scope="col">Method</th>
+                        <th scope="col">Functional Part<br>Accuracy ↑</th>
+                        <th scope="col">Grasp Type<br>Accuracy ↑</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><th scope="row">Base LLM</th><td>0.82</td><td>0.63</td></tr>
+                      <tr><th scope="row">Base LLM + CoT</th><td>0.91</td><td>0.66</td></tr>
+                      <tr><th scope="row">Base LLM + RAG</th><td>0.85</td><td>0.78</td></tr>
+                      <tr class="is-ours"><th scope="row">AdaRoboVLG (ours)</th><td><strong>0.94</strong></td><td><strong>0.87</strong></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="cognitive-benchmark-note"><strong>125</strong> instructions <span>|</span> <strong>57</strong> manipulation tasks <span>|</span> <strong>80</strong> object categories</p>
+              </figure>
+
+              <section class="cognitive-viewer" aria-label="Cognitive prior object case viewer">
+                <div class="cognitive-viewer-toolbar">
+                  <div class="cognitive-select-wrap">
+                    <select id="cognitive-case-select" aria-label="Select an object case">
+                      <option value="pan">Pan</option>
+                      <option value="spray-bottle">Spray Bottle</option>
+                      <option value="garlic-press">Garlic Press</option>
+                      <option value="scissors">Scissors</option>
+                      <option value="ice-scraper">Ice Scraper</option>
+                      <option value="mug">Mug</option>
+                      <option value="tongs">Tongs</option>
+                      <option value="paint-roller">Paint Roller</option>
+                      <option value="basket">Basket</option>
+                      <option value="can-opener">Can Opener</option>
+                      <option value="sponge">Sponge</option>
+                      <option value="ladle">Ladle</option>
+                      <option value="baster">Baster</option>
+                      <option value="duster">Duster</option>
+                      <option value="pepper-grinder">Pepper Grinder</option>
+                      <option value="brush">Brush</option>
+                    </select>
+                  </div>
+                  <blockquote class="cognitive-instruction" id="cognitive-instruction">“Use the pan to saute vegetables.”</blockquote>
+                </div>
+                <div class="cognitive-result-grid">
+                  <figure class="cognitive-result-card">
+                    <div class="cognitive-result-media"><img id="cognitive-input-image" src="/assets/exp3_cognitive_prior/pan/input.png" alt="Input image of a pan"></div>
+                    <figcaption>Input Image</figcaption>
+                  </figure>
+                  <figure class="cognitive-result-card">
+                    <div class="cognitive-result-media"><img id="cognitive-part-image" src="/assets/exp3_cognitive_prior/pan/functional-part.png" alt="Functional part prediction for a pan"></div>
+                    <figcaption>Functional Part <strong id="cognitive-part-label">handle</strong></figcaption>
+                  </figure>
+                  <figure class="cognitive-result-card is-grasp-type">
+                    <div class="cognitive-result-media"><img id="cognitive-grasp-image" src="/assets/exp3_cognitive_prior/pan/grasp-type.png" alt="Medium Wrap grasp type"></div>
+                    <figcaption>Grasp Type <strong id="cognitive-grasp-label">Medium Wrap</strong></figcaption>
+                  </figure>
+                </div>
+              </section>
+            </div>
+
+            <h3>Task B: Language-Guided Target Grasping</h3><p>Results from Task B verify that LLM-based grounding and SAM3-based segmentation provide accurate target constraints for generating executable and semantically consistent grasp poses across different robotic hands.</p>
+
+            <section class="cognitive-video-evidence" aria-label="Language-guided target grasping videos">
+              <div class="cognitive-video-switcher" role="radiogroup" aria-label="Select a multi-finger robotic hand">
+                <span class="cognitive-video-label">Language-Guided Target Grasping</span>
+                <label class="cognitive-video-option">
+                  <input type="radio" name="cognitive-video-hand" value="dh3" aria-controls="cognitive-video-dh3" checked>
+                  <span class="cognitive-video-indicator" aria-hidden="true"></span>
+                  <span>DH3 (3F)</span>
+                </label>
+                <label class="cognitive-video-option">
+                  <input type="radio" name="cognitive-video-hand" value="allegro" aria-controls="cognitive-video-allegro">
+                  <span class="cognitive-video-indicator" aria-hidden="true"></span>
+                  <span>Allegro (4F)</span>
+                </label>
+                <label class="cognitive-video-option">
+                  <input type="radio" name="cognitive-video-hand" value="inspire" aria-controls="cognitive-video-inspire">
+                  <span class="cognitive-video-indicator" aria-hidden="true"></span>
+                  <span>Inspire (5F)</span>
+                </label>
+              </div>
+              <div class="cognitive-video-panels">
+                <section class="cognitive-video-panel" id="cognitive-video-dh3" data-cognitive-video-hand="dh3" aria-label="DH3 (3F) language-guided target grasping video" aria-hidden="false">
+                  <video controls data-viewport-autoplay="true" muted loop playsinline preload="none" poster="/assets/exp3_cognitive_prior/dh3_poster.jpg" aria-label="DH3 (3F) language-guided target grasping results">
+                    <source src="/assets/exp3_cognitive_prior/dh3.mp4" type="video/mp4">
+                  </video>
+                </section>
+                <section class="cognitive-video-panel" id="cognitive-video-allegro" data-cognitive-video-hand="allegro" aria-label="Allegro (4F) language-guided target grasping video" hidden aria-hidden="true">
+                  <video controls muted loop playsinline preload="metadata" poster="/assets/exp3_cognitive_prior/allegro_poster.jpg" aria-label="Allegro (4F) language-guided target grasping results">
+                    <source src="/assets/exp3_cognitive_prior/allegro.mp4" type="video/mp4">
+                  </video>
+                </section>
+                <section class="cognitive-video-panel" id="cognitive-video-inspire" data-cognitive-video-hand="inspire" aria-label="Inspire (5F) language-guided target grasping video" hidden aria-hidden="true">
+                  <video controls muted loop playsinline preload="metadata" poster="/assets/exp3_cognitive_prior/inspire_poster.jpg" aria-label="Inspire (5F) language-guided target grasping results">
+                    <source src="/assets/exp3_cognitive_prior/inspire.mp4" type="video/mp4">
+                  </video>
+                </section>
+              </div>
+            </section>
+            <figure class="cognitive-target-benchmark" aria-labelledby="cognitive-target-benchmark-title">
+              <figcaption id="cognitive-target-benchmark-title">Performance Comparison of Language-Guided Target Grasping on Simulated Benchmarks</figcaption>
+              <div class="cognitive-target-benchmark-scroll">
+                <table>
+                  <colgroup>
+                    <col class="method-column">
+                    <col span="6" class="metric-column">
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th scope="col" rowspan="3">Methods</th>
+                      <th scope="colgroup" colspan="6">Success Rate (%)</th>
+                    </tr>
+                    <tr>
+                      <th scope="colgroup" colspan="3">GraspNet-1Billion (90 scenes)</th>
+                      <th class="dataset-separator" scope="colgroup" colspan="3">GraspClutter6D (235 scenes)</th>
+                    </tr>
+                    <tr>
+                      <th scope="col">DH3</th>
+                      <th scope="col">Allegro</th>
+                      <th scope="col">Inspire</th>
+                      <th class="dataset-separator" scope="col">DH3</th>
+                      <th scope="col">Allegro</th>
+                      <th scope="col">Inspire</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row"><span class="math-calligraphic" aria-label="D of R and O">𝒟(ℛ, 𝒪)</span>-Grasp</th>
+                      <td>66.2</td><td>53.3</td><td>57.3</td>
+                      <td class="dataset-separator">64.7</td><td>52.1</td><td>55.9</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">AnyDexGrasp</th>
+                      <td>85.2</td><td>80.8</td><td>84.4</td>
+                      <td class="dataset-separator">82.5</td><td>74.1</td><td>79.3</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">AnyDexGrasp<sup>*</sup></th>
+                      <td>86.6</td><td>81.2</td><td>85.0</td>
+                      <td class="dataset-separator">82.9</td><td>75.9</td><td>81.4</td>
+                    </tr>
+                    <tr class="is-ours">
+                      <th scope="row">AdaRoboVLG (ours)</th>
+                      <td><strong>88.9</strong></td><td><strong>82.2</strong></td><td><strong>86.9</strong></td>
+                      <td class="dataset-separator"><strong>84.9</strong></td><td><strong>76.4</strong></td><td><strong>82.6</strong></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="cognitive-target-benchmark-note">All methods use the same cognitive reasoning module.</p>
+            </figure>
+          </article>
+          <article class="experiment-panel" id="panel-q4" role="tabpanel" aria-labelledby="tab-q4" data-experiment-panel="q4">
+            <div class="panel-copy"><span>Experiment (4/6): Evaluation of the Temporal Prior for Dynamic Grasping</span>
+              <!-- <h3>Consistent grasp updates without task-specific training.</h3> -->
+              <p>To validate the temporal prior for dynamic grasping, we evaluate AdaRoboVLG on the GraspNet-1Billion benchmark. It achieves perfect association accuracy, the lowest translation error, and competitive rotation error over consecutive tracking frames.</p></div>
+            <figure class="temporal-benchmark" aria-labelledby="temporal-benchmark-title">
+              <figcaption id="temporal-benchmark-title">Performance Comparison of Dynamic Grasping on the GraspNet-1Billion Benchmark</figcaption>
+              <div class="temporal-benchmark-scroll">
+                <table>
+                  <colgroup>
+                    <col class="method-column">
+                    <col span="9" class="metric-column">
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th rowspan="2" scope="col">Methods</th>
+                      <th colspan="3" scope="colgroup">Seen</th>
+                      <th class="scenario-separator" colspan="3" scope="colgroup">Similar</th>
+                      <th class="scenario-separator" colspan="3" scope="colgroup">Novel</th>
+                    </tr>
+                    <tr>
+                      <th scope="col">MGTA&nbsp;↑</th>
+                      <th scope="col"><span class="math-metric"><i>e</i><sub>trans</sub> (cm)</span>&nbsp;↓</th>
+                      <th scope="col"><span class="math-metric"><i>e</i><sub>rot</sub> (°)</span>&nbsp;↓</th>
+                      <th class="scenario-separator" scope="col">MGTA&nbsp;↑</th>
+                      <th scope="col"><span class="math-metric"><i>e</i><sub>trans</sub> (cm)</span>&nbsp;↓</th>
+                      <th scope="col"><span class="math-metric"><i>e</i><sub>rot</sub> (°)</span>&nbsp;↓</th>
+                      <th class="scenario-separator" scope="col">MGTA&nbsp;↑</th>
+                      <th scope="col"><span class="math-metric"><i>e</i><sub>trans</sub> (cm)</span>&nbsp;↓</th>
+                      <th scope="col"><span class="math-metric"><i>e</i><sub>rot</sub> (°)</span>&nbsp;↓</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Nearest</th>
+                      <td>-0.81</td><td>15.2</td><td>95.98</td>
+                      <td class="scenario-separator">-0.80</td><td>15.4</td><td>97.61</td>
+                      <td class="scenario-separator">-0.83</td><td>16.6</td><td>96.90</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">AnyGrasp</th>
+                      <td>-0.32</td><td>2.31</td><td>53.24</td>
+                      <td class="scenario-separator">-0.30</td><td>2.68</td><td>57.59</td>
+                      <td class="scenario-separator">-0.39</td><td>2.93</td><td>58.49</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">BundleTrack</th>
+                      <td>0.74</td><td>1.52</td><td>15.8</td>
+                      <td class="scenario-separator">0.72</td><td>1.47</td><td>16.37</td>
+                      <td class="scenario-separator">0.72</td><td>1.93</td><td>15.41</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Target-referenced</th>
+                      <td>0.84</td><td>1.34</td><td>10.15</td>
+                      <td class="scenario-separator">0.85</td><td>1.52</td><td>9.84</td>
+                      <td class="scenario-separator">0.78</td><td>1.9</td><td>12.96</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">MotionGrasp</th>
+                      <td>0.99</td><td>1.1</td><td><strong class="best-score">0.86</strong></td>
+                      <td class="scenario-separator">0.99</td><td>1.1</td><td><strong class="best-score">0.84</strong></td>
+                      <td class="scenario-separator">0.99</td><td>1.07</td><td><strong class="best-score">1.12</strong></td>
+                    </tr>
+                    <tr class="is-ours">
+                      <th scope="row">AdaRoboVLG (ours)</th>
+                      <td><strong class="best-score">1.0</strong></td><td><strong class="best-score">0.22</strong></td><td>3.57</td>
+                      <td class="scenario-separator"><strong class="best-score">1.0</strong></td><td><strong class="best-score">0.23</strong></td><td>3.68</td>
+                      <td class="scenario-separator"><strong class="best-score">1.0</strong></td><td><strong class="best-score">0.28</strong></td><td>3.28</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </figure>
+            <div class="temporal-tracking-copy">
+              <p>We further present long-horizon tracking visualization. Notably, we update grasps using the estimated rigid transformations of the target object. Based on these transformations, we project the initial 3D semantic features of objects into the current image space for visualizations. Better alignment between the projected features and target objects indicates more accurate tracking.</p>
+              <!-- <p>The long-horizon tracking experiments further reveal two representative failure cases: highly symmetric objects may introduce accumulated rotational drift, while severe initial occlusion may lack sufficient discriminative features, leading to tracking failure.</p> -->
+            </div>
+            <section class="temporal-video-carousel" aria-label="Temporal prior tracking demonstrations">
+              <header class="temporal-carousel-heading">
+                <strong>Long-Horizon Tracking Visualization for Representative Objects</strong>
+              </header>
+              <div class="temporal-carousel-stage">
+                <button class="temporal-carousel-button temporal-carousel-prev" type="button" aria-label="Show previous tracking video" aria-controls="temporal-carousel-video"><span aria-hidden="true">&#8249;</span></button>
+                <div class="temporal-carousel-media">
+                  <video id="temporal-carousel-video" controls data-viewport-autoplay="true" loop muted playsinline preload="none" poster="/assets/exp4_temporal_prior/tracking_1_poster.jpg" aria-label="Temporal prior tracking video 1 of 4">
+                    <source src="/assets/exp4_temporal_prior/tracking_1.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <button class="temporal-carousel-button temporal-carousel-next" type="button" aria-label="Show next tracking video" aria-controls="temporal-carousel-video"><span aria-hidden="true">&#8250;</span></button>
+              </div>
+              <div class="temporal-carousel-dots" aria-label="Select a tracking video">
+                <button class="is-active" type="button" data-temporal-video-index="0" aria-label="Show tracking video 1" aria-pressed="true"></button>
+                <button type="button" data-temporal-video-index="1" aria-label="Show tracking video 2" aria-pressed="false"></button>
+                <button type="button" data-temporal-video-index="2" aria-label="Show tracking video 3" aria-pressed="false"></button>
+                <button type="button" data-temporal-video-index="3" aria-label="Show tracking video 4" aria-pressed="false"></button>
+              </div>
+            </section>
+            <!-- <div class="temporal-tracking-copy">
+              <p>The long-horizon tracking experiments further reveal two representative failure cases: highly symmetric objects may introduce accumulated rotational drift, while severe initial occlusion may lack sufficient discriminative features, leading to tracking failure.</p>
+            </div> -->
+          </article>
+          <article class="experiment-panel" id="panel-q5" role="tabpanel" aria-labelledby="tab-q5" data-experiment-panel="q5">
+            <div class="panel-copy"><span>Experiment (5/6): Integrated Evaluation in Complex Real-World Tasks</span>
+              <p>To validate the composability of these priors for complex real-world tasks, we conduct two experiments. Task A combines the spatial and cognitive priors for functional grasping in static clutter, while Task B further incorporates the temporal prior for functional grasping in dynamic clutter.</p>
+              <h3>Task A: Functional Grasping in Static Clutter</h3>
+              <p>We test 102 everyday objects over 510 real-world grasping trials. For each trial, the spatial prior constrains grasp generation to avoid collisions with nearby objects, while the cognitive prior infers task-consistent functional grasp intents. By composing these priors, AdaRoboVLG generates spatially feasible and functionally appropriate grasp poses in cluttered scenes.</p>
+            </div>
+            <div class="exp5-composability-figure" aria-label="Functional grasping results in freely arranged clutter">
+              <div class="exp5-task-scenes">
+                <img src="/assets/exp5_composability/real_exp_task1.png" alt="Twelve functional grasping tasks across food, household, tool, toy, electronics, and textiles categories">
+              </div>
+              <aside class="exp5-result-summary" aria-label="Overall success rate and failure distributions">
+                <div class="exp5-summary-card">
+                  <strong>83.3%</strong>
+                  <span>overall success rate</span>
+                  <b>510 trials <i aria-hidden="true">|</i> 102 objects</b>
+                  <em>freely arranged clutter</em>
+                </div>
+                <figure class="exp5-failure-chart">
+                  <div class="exp5-failure-chart-crop">
+                    <img src="/assets/exp5_composability/failure_rate.png" alt="Failure distributions: 30 percent functional-part recognition error, 22 percent grasp pose estimation error, 20 percent insufficient contact stability, 16 percent multi-object interference, and 12 percent grasp-type error">
+                  </div>
+                  <figcaption>Failure Distributions</figcaption>
+                </figure>
+              </aside>
+            </div>
+            <section class="exp5-video-evidence" aria-label="Functional grasping in clutter videos">
+              <div class="exp5-video-switcher" role="radiogroup" aria-label="Select a robot platform for functional grasping in clutter">
+                <span class="exp5-video-label">
+                  <span>Functional Grasping in Clutter</span>
+                  <small>(<strong>v</strong>ideos are played at 2&times; speed)</small>
+                </span>
+                <label class="exp5-video-option">
+                  <input type="radio" name="exp5-video-platform" value="keenon-rohand" aria-controls="exp5-video-keenon-rohand">
+                  <span class="exp5-video-indicator" aria-hidden="true"></span>
+                  <span>KEENON XMAN-R1 + ROHand</span>
+                </label>
+                <label class="exp5-video-option">
+                  <input type="radio" name="exp5-video-platform" value="marvin-rohand" aria-controls="exp5-video-marvin-rohand" checked>
+                  <span class="exp5-video-indicator" aria-hidden="true"></span>
+                  <span>TianJi Marvin + ROHand</span>
+                </label>
+                <label class="exp5-video-option">
+                  <input type="radio" name="exp5-video-platform" value="marvin-pika" aria-controls="exp5-video-marvin-pika">
+                  <span class="exp5-video-indicator" aria-hidden="true"></span>
+                  <span>TianJi Marvin + Pika Gripper</span>
+                </label>
+              </div>
+              <div class="exp5-video-panels">
+                <section class="exp5-video-panel" id="exp5-video-keenon-rohand" data-exp5-video-platform="keenon-rohand" aria-label="KEENON XMAN-R1 with ROHand functional grasping video" hidden aria-hidden="true">
+                  <video controls muted loop playsinline preload="metadata" poster="/assets/exp5_composability/KEENON XMAN-R1 + ROHand_poster.jpg" aria-label="KEENON XMAN-R1 with ROHand functional grasping in clutter">
+                    <source src="/assets/exp5_composability/KEENON XMAN-R1 + ROHand.mp4" type="video/mp4">
+                  </video>
+                </section>
+                <section class="exp5-video-panel" id="exp5-video-marvin-rohand" data-exp5-video-platform="marvin-rohand" aria-label="TianJi Marvin with ROHand functional grasping video" aria-hidden="false">
+                  <video controls data-viewport-autoplay="true" muted loop playsinline preload="none" poster="/assets/exp5_composability/TianJi Marvin + ROHand_poster.jpg?v=20260803-r2" aria-label="TianJi Marvin with ROHand functional grasping in clutter">
+                    <source src="/assets/exp5_composability/TianJi Marvin + ROHand.mp4" type="video/mp4">
+                  </video>
+                </section>
+                <section class="exp5-video-panel" id="exp5-video-marvin-pika" data-exp5-video-platform="marvin-pika" aria-label="TianJi Marvin with Pika Gripper functional grasping video" hidden aria-hidden="true">
+                  <video controls muted loop playsinline preload="metadata" poster="/assets/exp5_composability/TianJi Marvin + Pika Gripper_poster.jpg?v=20260803-r2" aria-label="TianJi Marvin with Pika Gripper functional grasping in clutter">
+                    <source src="/assets/exp5_composability/TianJi Marvin + Pika Gripper.mp4" type="video/mp4">
+                  </video>
+                </section>
+              </div>
+            </section>
+            <div class="panel-copy exp5-inter-video-copy">
+              <h3>Task B: Functional Grasping in Dynamic Clutter</h3>
+              <p>We present representative results of functional grasping in dynamic clutter on a conveyor belt moving at 2–5 cm/s with 16 target objects and multiple distractors. These results demonstrate the effective synergy among the spatial, cognitive, and temporal priors, enabling spatially feasible, functionally appropriate, and temporally consistent grasping in real-world dynamic scenes.</p>
+            </div>
+            <section class="exp5-dynamic-carousel" aria-label="Functional grasping in cluttered and dynamic scenes" tabindex="0">
+              <header class="exp5-dynamic-heading">
+                <strong>Functional Grasping in Cluttered and Dynamic Conveyor-Belt Scenes</strong>
+                <small>(videos are played at 2&times; speed)</small>
+              </header>
+              <div class="exp5-dynamic-stage">
+                <button class="exp5-dynamic-button exp5-dynamic-prev" type="button" aria-label="Show previous dynamic grasping video group" aria-controls="exp5-dynamic-groups"><span aria-hidden="true">&#8249;</span></button>
+                <div class="exp5-dynamic-groups" id="exp5-dynamic-groups">
+                  <div class="exp5-dynamic-group" data-exp5-dynamic-index="0" aria-label="Dynamic grasping video group 1 of 4" aria-hidden="false">
+                    <figure class="exp5-dynamic-card">
+                      <figcaption>&ldquo;Pour water into the bowl with the kettle.&rdquo;</figcaption>
+                      <video controls data-viewport-autoplay="true" muted loop playsinline preload="none" poster="/assets/exp5_composability/dynamic_grasp/15-kettle_poster.jpg?v=1280x360" aria-label="Pour water into the bowl with the kettle">
+                        <source src="/assets/exp5_composability/dynamic_grasp/15-kettle.mp4" type="video/mp4">
+                      </video>
+                    </figure>
+                    <figure class="exp5-dynamic-card">
+                      <figcaption>&ldquo;Place the rose in a vase to display it.&rdquo;</figcaption>
+                      <video controls data-viewport-autoplay="true" muted loop playsinline preload="none" poster="/assets/exp5_composability/dynamic_grasp/14-rose_poster.jpg?v=1280x360" aria-label="Place the rose in a vase to display it">
+                        <source src="/assets/exp5_composability/dynamic_grasp/14-rose.mp4" type="video/mp4">
+                      </video>
+                    </figure>
+                    <figure class="exp5-dynamic-card">
+                      <figcaption>&ldquo;Hand the green toy car to the child for play.&rdquo;</figcaption>
+                      <video controls data-viewport-autoplay="true" muted loop playsinline preload="none" poster="/assets/exp5_composability/dynamic_grasp/13-green_toy_car_poster.jpg?v=1280x360" aria-label="Hand the green toy car to the child for play">
+                        <source src="/assets/exp5_composability/dynamic_grasp/13-green_toy_car.mp4" type="video/mp4">
+                      </video>
+                    </figure>
+                    <figure class="exp5-dynamic-card">
+                      <figcaption>&ldquo;Hand over the red microphone to user.&rdquo;</figcaption>
+                      <video controls data-viewport-autoplay="true" muted loop playsinline preload="none" poster="/assets/exp5_composability/dynamic_grasp/12-red_microphone_poster.jpg?v=1280x360" aria-label="Handover the red microphone to user">
+                        <source src="/assets/exp5_composability/dynamic_grasp/12-red_microphone.mp4" type="video/mp4">
+                      </video>
+                    </figure>
+                  </div>
+                  <div class="exp5-dynamic-group" data-exp5-dynamic-index="1" aria-label="Dynamic grasping video group 2 of 4" hidden aria-hidden="true">
+                    <figure class="exp5-dynamic-card">
+                      <figcaption>&ldquo;Flip the slipper over to inspect the sole for debris.&rdquo;</figcaption>
+                      <video controls muted loop playsinline preload="metadata" poster="/assets/exp5_composability/dynamic_grasp/10-slipper_poster.jpg?v=1280x360" aria-label="Flip the slipper over to inspect the sole for debris">
+                        <source src="/assets/exp5_composability/dynamic_grasp/10-slipper.mp4" type="video/mp4">
+                      </video>
+                    </figure>
+                    <figure class="exp5-dynamic-card">
+                      <figcaption>&ldquo;Grasp the tennis ball and toss it into the basket.&rdquo;</figcaption>
+                      <video controls muted loop playsinline preload="metadata" poster="/assets/exp5_composability/dynamic_grasp/11-tennis_ball_poster.jpg?v=1280x360" aria-label="Grasp the tennis ball and toss it into the basket">
+                        <source src="/assets/exp5_composability/dynamic_grasp/11-tennis_ball.mp4" type="video/mp4">
+                      </video>
+                    </figure>
+                    <figure class="exp5-dynamic-card">
+                      <figcaption>&ldquo;Hand the red coffee cup to the customer.&rdquo;</figcaption>
+                      <video controls muted loop playsinline preload="metadata" poster="/assets/exp5_composability/dynamic_grasp/9-red_cup_poster.jpg?v=1280x360" aria-label="Hand the red coffee cup to the customer">
+                        <source src="/assets/exp5_composability/dynamic_grasp/9-red_cup.mp4" type="video/mp4">
+                      </video>
+                    </figure>
+                    <figure class="exp5-dynamic-card">
+                      <figcaption>&ldquo;Use the spatula to stir the soup gently.&rdquo;</figcaption>
+                      <video controls muted loop playsinline preload="metadata" poster="/assets/exp5_composability/dynamic_grasp/7-spatula_poster.jpg?v=1280x360" aria-label="Use the spatula to stir the soup gently">
+                        <source src="/assets/exp5_composability/dynamic_grasp/7-spatula.mp4" type="video/mp4">
+                      </video>
+                    </figure>
+                  </div>
+                  <div class="exp5-dynamic-group" data-exp5-dynamic-index="2" aria-label="Dynamic grasping video group 3 of 4" hidden aria-hidden="true">
+                    <figure class="exp5-dynamic-card">
+                      <figcaption>&ldquo;Hand over the blue bottle to me.&rdquo;</figcaption>
+                      <video controls muted loop playsinline preload="metadata" poster="/assets/exp5_composability/dynamic_grasp/5-blue_bottle_poster.jpg?v=1280x360" aria-label="Handover the blue bottle to me">
+                        <source src="/assets/exp5_composability/dynamic_grasp/5-blue_bottle.mp4" type="video/mp4">
+                      </video>
+                    </figure>
+                    <figure class="exp5-dynamic-card">
+                      <figcaption>&ldquo;Recycle the toothpaste box after use.&rdquo;</figcaption>
+                      <video controls muted loop playsinline preload="metadata" poster="/assets/exp5_composability/dynamic_grasp/4-toothpaste_box_poster.jpg?v=1280x360" aria-label="Recycle the toothpaste box after use">
+                        <source src="/assets/exp5_composability/dynamic_grasp/4-toothpaste_box.mp4" type="video/mp4">
+                      </video>
+                    </figure>
+                    <figure class="exp5-dynamic-card">
+                      <figcaption>&ldquo;Scrub the bathtub with the bath sponge.&rdquo;</figcaption>
+                      <video controls muted loop playsinline preload="metadata" poster="/assets/exp5_composability/dynamic_grasp/1-yellow_bath_sponge_poster.jpg?v=1280x360" aria-label="Scrub the bathtub with the bath sponge">
+                        <source src="/assets/exp5_composability/dynamic_grasp/1-yellow_bath_sponge.mp4" type="video/mp4">
+                      </video>
+                    </figure>
+                    <figure class="exp5-dynamic-card">
+                      <figcaption>&ldquo;Apply the gauze to cover the wound.&rdquo;</figcaption>
+                      <video controls muted loop playsinline preload="metadata" poster="/assets/exp5_composability/dynamic_grasp/0-white_gauze_poster.jpg?v=1280x360" aria-label="Apply the gauze to cover the wound">
+                        <source src="/assets/exp5_composability/dynamic_grasp/0-white_gauze.mp4" type="video/mp4">
+                      </video>
+                    </figure>
+                  </div>
+                  <div class="exp5-dynamic-group" data-exp5-dynamic-index="3" aria-label="Dynamic grasping video group 4 of 4" hidden aria-hidden="true">
+                    <figure class="exp5-dynamic-card">
+                      <figcaption>&ldquo;Use the mug to collect water.&rdquo;</figcaption>
+                      <video controls muted loop playsinline preload="metadata" poster="/assets/exp5_composability/dynamic_grasp/8-mug_poster.jpg?v=1280x360" aria-label="Use the mug to collect water">
+                        <source src="/assets/exp5_composability/dynamic_grasp/8-mug.mp4" type="video/mp4">
+                      </video>
+                    </figure>
+                    <figure class="exp5-dynamic-card">
+                      <figcaption>&ldquo;Use the dustpan to collect the swept debris.&rdquo;</figcaption>
+                      <video controls muted loop playsinline preload="metadata" poster="/assets/exp5_composability/dynamic_grasp/6-dustpan_poster.jpg?v=1280x360" aria-label="Use the dustpan to collect the swept debris">
+                        <source src="/assets/exp5_composability/dynamic_grasp/6-dustpan.mp4" type="video/mp4">
+                      </video>
+                    </figure>
+                    <figure class="exp5-dynamic-card">
+                      <figcaption>&ldquo;Shake the red potato chip can to settle contents.&rdquo;</figcaption>
+                      <video controls muted loop playsinline preload="metadata" poster="/assets/exp5_composability/dynamic_grasp/3-potato_chip_can_poster.jpg?v=1280x360" aria-label="Shake red potato chip can to settle contents">
+                        <source src="/assets/exp5_composability/dynamic_grasp/3-potato_chip_can.mp4" type="video/mp4">
+                      </video>
+                    </figure>
+                    <figure class="exp5-dynamic-card">
+                      <figcaption>&ldquo;Clean the grout lines with the light blue brush.&rdquo;</figcaption>
+                      <video controls muted loop playsinline preload="metadata" poster="/assets/exp5_composability/dynamic_grasp/2-green_brush_poster.jpg?v=1280x360" aria-label="Clean the grout lines with the light blue brush">
+                        <source src="/assets/exp5_composability/dynamic_grasp/2-green_brush.mp4" type="video/mp4">
+                      </video>
+                    </figure>
+                  </div>
+                </div>
+                <button class="exp5-dynamic-button exp5-dynamic-next" type="button" aria-label="Show next dynamic grasping video group" aria-controls="exp5-dynamic-groups"><span aria-hidden="true">&#8250;</span></button>
+              </div>
+              <div class="exp5-dynamic-dots" aria-label="Select a dynamic grasping video group">
+                <button class="is-active" type="button" data-exp5-dynamic-dot="0" aria-label="Show dynamic grasping video group 1" aria-pressed="true"></button>
+                <button type="button" data-exp5-dynamic-dot="1" aria-label="Show dynamic grasping video group 2" aria-pressed="false"></button>
+                <button type="button" data-exp5-dynamic-dot="2" aria-label="Show dynamic grasping video group 3" aria-pressed="false"></button>
+                <button type="button" data-exp5-dynamic-dot="3" aria-label="Show dynamic grasping video group 4" aria-pressed="false"></button>
+              </div>
+            </section>
+            <div class="panel-copy exp5-disturbance-copy">
+              <p>We further evaluate grasp tracking robustness under four human-induced disturbances across 10 objects with five trials per object, achieving an average success rate of 89.7%.</p>
+            </div>
+            <section class="exp5-disturbance-evidence" aria-label="Grasp tracking under human-induced disturbances">
+              <header class="exp5-disturbance-heading">
+                <strong>Grasp Tracking under Human-Induced Disturbances</strong>
+              </header>
+              <div class="exp5-disturbance-grid">
+                <figure class="exp5-disturbance-card">
+                  <figcaption>Out-of-view Recovery</figcaption>
+                  <div class="exp5-disturbance-media">
+                    <p class="exp5-disturbance-instruction">&ldquo;Use the white gauze for bandaging.&rdquo;</p>
+                    <video controls data-viewport-autoplay="true" muted loop playsinline preload="none" poster="/assets/exp5_composability/disturbance_tracking/out_of_view_recovery_poster.png" aria-label="Out-of-view recovery under human-induced disturbances">
+                      <source src="/assets/exp5_composability/disturbance_tracking/out_of_view_recovery.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </figure>
+                <figure class="exp5-disturbance-card">
+                  <figcaption>Fast Movement</figcaption>
+                  <div class="exp5-disturbance-media">
+                    <p class="exp5-disturbance-instruction">&ldquo;Pick up the sponge for dishwashing.&rdquo;</p>
+                    <video controls data-viewport-autoplay="true" muted loop playsinline preload="none" poster="/assets/exp5_composability/disturbance_tracking/fast_movement_poster.png" aria-label="Fast movement under human-induced disturbances">
+                      <source src="/assets/exp5_composability/disturbance_tracking/fast_movement.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </figure>
+                <figure class="exp5-disturbance-card">
+                  <figcaption>Continuous Occlusion</figcaption>
+                  <div class="exp5-disturbance-media">
+                    <p class="exp5-disturbance-instruction">&ldquo;Hand the red toy car to the child for play.&rdquo;</p>
+                    <video controls data-viewport-autoplay="true" muted loop playsinline preload="none" poster="/assets/exp5_composability/disturbance_tracking/continuous_occlusion_poster.png" aria-label="Continuous occlusion under human-induced disturbances">
+                      <source src="/assets/exp5_composability/disturbance_tracking/continuous_occlusion.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </figure>
+                <figure class="exp5-disturbance-card">
+                  <figcaption>Simultaneous Translation and Rotation</figcaption>
+                  <div class="exp5-disturbance-media">
+                    <p class="exp5-disturbance-instruction">&ldquo;Squeeze the shampoo bottle to release product.&rdquo;</p>
+                    <video controls data-viewport-autoplay="true" muted loop playsinline preload="none" poster="/assets/exp5_composability/disturbance_tracking/simultaneous_translation_rotation_poster.png" aria-label="Simultaneous translation and rotation under human-induced disturbances">
+                      <source src="/assets/exp5_composability/disturbance_tracking/simultaneous_translation_rotation.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </figure>
+              </div>
+            </section>
+          </article>
+          <article class="experiment-panel" id="panel-q6" role="tabpanel" aria-labelledby="tab-q6" data-experiment-panel="q6">
+            <div class="panel-copy"><span>Experiment (6/6): Extensibility of the Adaptive Framework</span>
+              <!-- <h3>Add capabilities, not a new policy.</h3> -->
+              <!-- <p>Finally, we examine the extensibility of the framework. By decoupling task understanding from grasp synthesis, AdaRoboVLG can incorporate new capabilities through additional modules without retraining an entirely new policy.</p>
+              <p>For bimanual sorting, we introduce a task-allocation module to distribute grasp targets between two arms. For transparent-object grasping, we integrate a depth-completion module to recover missing geometry before constructing the grasp interface.</p> -->
+              <p>Finally, we demonstrate the extensibility of AdaRoboVLG. It enables new capabilities through additional modules without retraining the entire policy, such as bimanual sorting with task allocation and transparent-object grasping with depth completion.</p>
+            </div>
+            <section class="exp6-video-evidence" aria-label="Extensibility experiment videos">
+              <article class="exp6-video-card">
+                <header class="exp6-video-heading">
+                  <strong>Bimanual Sorting</strong>
+                  <small>(videos are played at 25&times; speed)</small>
+                </header>
+                <video controls data-viewport-autoplay="true" muted loop playsinline preload="none" poster="/assets/exp6_extensibility/bimanual_sorting_poster.png?v=1920x1080" aria-label="Bimanual sorting experiment">
+                  <source src="/assets/exp6_extensibility/bimanual_sorting.mp4?v=1920x1080" type="video/mp4">
+                </video>
+              </article>
+              <article class="exp6-video-card exp6-transparent-card">
+                <header class="exp6-video-heading">
+                  <strong>Transparent-object Grasping</strong>
+                  <small>(videos are played at 2.5&times; speed)</small>
+                </header>
+                <div class="exp6-transparent-media">
+                  <video controls data-viewport-autoplay="true" muted loop playsinline preload="none" poster="/assets/exp6_extensibility/transparent_object_grasping_poster.png" aria-label="Transparent-object grasping experiment">
+                    <source src="/assets/exp6_extensibility/transparent_object_grasping.mp4" type="video/mp4">
+                  </video>
+                  <img src="/assets/exp6_extensibility/depth_completion_comparison.png" alt="Transparent-object grasping with and without depth completion">
+                </div>
+              </article>
+            </section>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="experiments-legacy" hidden>
+      <div class="shell scroll-study">
+        <header class="study-sticky-head">
+          <span class="section-label">03 / EXPERIMENTS · COMPONENT LEVEL</span>
+          <h2 class="section-title">First, isolate each capability in simulation.</h2>
+          <p class="section-intro">The component study asks four separate questions: whether the shared policy generalizes across hands, and whether each spatial, cognitive, and temporal prior contributes its intended capability.</p>
+        </header>
+        <div class="study-stack">
+          <article class="study-chapter">
+            <div class="chapter-copy"><span>01 / BASE POLICY</span><h3>A compact, hand-agnostic interaction space.</h3><p>The HOI representation reduces learning difficulty, while joint training across three robotic hands improves overall performance and enables cross-hand generalization.</p></div>
+            <figure class="study-media"><img src="concepts/assets/base-policy-result.png" alt="Base policy component validation"><figcaption>Learning efficiency and cross-hand generalization.</figcaption></figure>
+          </article>
+          <article class="study-chapter">
+            <div class="chapter-copy"><span>02 / SPATIAL PRIOR</span><h3>Spatial constraints remain reliable as scenes change.</h3><p>On DexGraspNet 2.0, the spatial prior produces feasible grasps across three robotic hands and varying scene complexity, with less degradation than the baselines.</p></div>
+            <figure class="study-media"><img src="concepts/assets/spatial-result.png" alt="Spatial prior quantitative validation"><figcaption>Collision-aware grasping across clutter levels.</figcaption></figure>
+          </article>
+          <article class="study-chapter">
+            <div class="chapter-copy"><span>03 / COGNITIVE PRIOR</span><h3>Language becomes a task-consistent grasp intent.</h3><p>RAG and structured chain-of-thought improve open-set functionality inference; grounding and segmentation then provide executable semantic constraints to the base policy.</p></div>
+            <figure class="study-media"><img src="concepts/assets/cognitive-result.png" alt="Cognitive prior simulation validation"><figcaption>Functionality inference and language-guided target grounding.</figcaption></figure>
+          </article>
+          <article class="study-chapter">
+            <div class="chapter-copy"><span>04 / TEMPORAL PRIOR</span><h3>Consistent grasp updates without task-specific training.</h3><p>The temporal prior achieves perfect association accuracy, the lowest translation error, and competitive rotation error while estimating target motion online.</p></div>
+            <figure class="study-media"><img src="concepts/assets/temporal-result.png" alt="Temporal prior tracking validation"><figcaption>Training-free, long-horizon grasp tracking.</figcaption></figure>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="real-world" hidden>
+      <div class="shell system-story">
+        <div class="system-copy">
+          <span class="section-label">04 / EXPERIMENTS · SYSTEM LEVEL</span>
+          <h2 class="section-title">Then, compose all three priors in the real world.</h2>
+          <p>After independent validation, the system study evaluates whether the spatial, cognitive, and temporal priors work together on more complex functional grasping tasks in static and dynamic clutter.</p>
+          <div class="metric-line" aria-label="Real-world experiment summary">
+            <div class="metric"><b>83.3%</b><span>static-clutter success</span></div>
+            <div class="metric"><b>5 Hz</b><span>online grasp updates</span></div>
+            <div class="metric"><b>89.7%</b><span>disturbance robustness</span></div>
+          </div>
+        </div>
+        <div class="system-media">
+          <figure><img src="concepts/assets/integrated-tasks.png" alt="Composition of priors for static and dynamic real-world tasks"><figcaption>Task A composes spatial and cognitive priors; Task B further adds the temporal prior for dynamic clutter.</figcaption></figure>
+          <figure><img src="concepts/assets/real-summary.png" alt="Real-world functional grasping evaluation summary"><figcaption>Functional grasping in static clutter: zero-shot deployment across robotic platforms and unseen end-effectors.</figcaption></figure>
+          <figure><img src="concepts/assets/robustness.png" alt="Robust grasp tracking under human-induced disturbances"><figcaption>Dynamic validation includes conveyor-belt grasping and four human-induced disturbance types.</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="extensibility" hidden>
+      <div class="shell ext-grid">
+        <div>
+          <span class="section-label">05 / EXTENSIBILITY</span>
+          <h2 class="section-title">Add capabilities, not a new policy.</h2>
+          <p class="section-intro">Because task understanding is decoupled from grasp synthesis, new capabilities can be introduced as modules while the shared policy and structured interface remain unchanged.</p>
+          <div class="ext-list">
+            <div class="ext-item"><strong>Bimanual sorting</strong><span>A task-allocation module distributes grasp targets between two arms.</span></div>
+            <div class="ext-item"><strong>Transparent-object grasping</strong><span>A depth-completion module recovers missing geometry before interface construction.</span></div>
+          </div>
+        </div>
+        <div><img src="concepts/assets/extensibility.png" alt="Framework extensions for bimanual sorting and transparent-object grasping"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell closing">
+    <p>AdaRoboVLG · Adaptive Vision-Language Grasping</p>
+    <div class="closing-links"><a class="button" href="#top">Back to top</a></div>
+  </footer>
+
+  <script>
+    const managedVideos = [...document.querySelectorAll("video")].filter((video) => !video.closest("[data-spatial-hand-panel]"));
+    const managedRegionSelector = [
+      ".cognitive-video-evidence",
+      ".temporal-video-carousel",
+      ".exp5-video-evidence",
+      ".exp5-dynamic-carousel",
+      ".exp5-disturbance-evidence",
+      ".exp6-video-evidence"
+    ].join(",");
+    const managedVideoRegion = new WeakMap();
+    const managedVideoRegions = [...new Set(managedVideos.map((video) => {
+      const region = video.closest(managedRegionSelector) || video;
+      managedVideoRegion.set(video, region);
+      return region;
+    }))];
+    const managedRegionVisibility = new Map(managedVideoRegions.map((region) => [region, { intersecting: false, score: 0 }]));
+    let activeManagedVideoRegion = null;
+    let managedRegionSyncTimer = 0;
+    const pauseManagedVideo = (video) => {
+      if (video && !video.paused) video.pause();
+    };
+    const isManagedVideoVisible = (video) => {
+      if (!video || video.closest("[hidden]") || document.visibilityState !== "visible") return false;
+      return managedVideoRegion.get(video) === activeManagedVideoRegion;
+    };
+    const syncManagedVideoRegions = () => {
+      managedRegionSyncTimer = 0;
+      if (document.visibilityState !== "visible") {
+        managedVideos.forEach(pauseManagedVideo);
+        return;
+      }
+      const candidates = managedVideoRegions
+        .map((region) => ({ region, ...(managedRegionVisibility.get(region) || { intersecting: false, score: 0 }) }))
+        .filter((item) => item.intersecting && item.score >= .04 && !item.region.closest("[hidden]"))
+        .sort((a, b) => b.score - a.score);
+      const best = candidates[0] || null;
+      const current = candidates.find((item) => item.region === activeManagedVideoRegion);
+      if (!current || !best || best.score - current.score >= .08) {
+        activeManagedVideoRegion = best?.region || null;
+      }
+      managedVideos.forEach((video) => {
+        const shouldPlay = isManagedVideoVisible(video)
+          && (video.dataset.viewportAutoplay === "true" || video.dataset.viewportResume === "true");
+        if (shouldPlay) video.play().catch(() => {});
+        else pauseManagedVideo(video);
+      });
+    };
+    const requestManagedRegionSync = (delay = 100) => {
+      clearTimeout(managedRegionSyncTimer);
+      managedRegionSyncTimer = setTimeout(syncManagedVideoRegions, delay);
+    };
+    const requestManagedVideoPlay = (video) => {
+      if (!video) return;
+      video.dataset.viewportResume = "true";
+      if (isManagedVideoVisible(video)) video.play().catch(() => {});
+      else requestManagedRegionSync(0);
+    };
+    if ("IntersectionObserver" in window) {
+      const managedRegionObserver = new IntersectionObserver((entries) => {
+        const viewportArea = Math.max(1, innerWidth * innerHeight);
+        entries.forEach((entry) => {
+          const visibleArea = entry.intersectionRect.width * entry.intersectionRect.height;
+          managedRegionVisibility.set(entry.target, {
+            intersecting: entry.isIntersecting,
+            score: visibleArea / viewportArea
+          });
+        });
+        requestManagedRegionSync();
+      }, { rootMargin: "0px", threshold: [0, .05, .1, .2, .35, .5, .7] });
+      managedVideoRegions.forEach((region) => managedRegionObserver.observe(region));
+    } else {
+      activeManagedVideoRegion = managedVideoRegions.find((region) => !region.closest("[hidden]")) || null;
+      syncManagedVideoRegions();
+    }
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState !== "visible") {
+        clearTimeout(managedRegionSyncTimer);
+        managedVideos.forEach(pauseManagedVideo);
+      } else {
+        requestManagedRegionSync(0);
+      }
+    });
+
+    const navSectionLinks = [...document.querySelectorAll("[data-nav-section]")];
+    const navSections = navSectionLinks.map((link) => document.querySelector(`#${link.dataset.navSection}`)).filter(Boolean);
+    const setActiveNav = (sectionId) => navSectionLinks.forEach((link) => {
+      const active = link.dataset.navSection === sectionId;
+      link.classList.toggle("is-active", active);
+      if (active) link.setAttribute("aria-current", "page");
+      else link.removeAttribute("aria-current");
+    });
+    let navScrollFrame = 0;
+    const syncNavFromScroll = () => {
+      navScrollFrame = 0;
+      document.querySelector(".site-header").classList.toggle("scrolled", scrollY > 24);
+      const activationLine = Math.max(90, innerHeight * .18);
+      const firstNavSection = navSections[0];
+      const firstSectionNotReached = firstNavSection && firstNavSection.getBoundingClientRect().top > activationLine;
+      if (firstSectionNotReached) {
+        setActiveNav(null);
+        return;
+      }
+      let currentSection = firstNavSection;
+      navSections.forEach((section) => {
+        if (section.getBoundingClientRect().top <= activationLine) currentSection = section;
+      });
+      if (currentSection) setActiveNav(currentSection.id);
+    };
+    const requestNavScrollSync = () => {
+      if (navScrollFrame) return;
+      navScrollFrame = setTimeout(syncNavFromScroll, 80);
+    };
+    window.addEventListener("scroll", requestNavScrollSync, { passive: true });
+    window.addEventListener("resize", requestNavScrollSync);
+    requestNavScrollSync();
+    navSectionLinks.forEach((link) => link.addEventListener("click", () => setActiveNav(link.dataset.navSection)));
+    document.querySelector(".nav-brand")?.addEventListener("click", () => setActiveNav(null));
+    const experimentBoardViewport = document.querySelector(".experiment-board-scroll");
+    const experimentBoard = document.querySelector(".experiment-board");
+    const experimentBoardDesignWidth = 1040;
+    let experimentBoardScaleFrame = 0;
+    const syncExperimentBoardScale = () => {
+      experimentBoardScaleFrame = 0;
+      if (!experimentBoardViewport || !experimentBoard) return;
+      if (innerWidth > 980) {
+        experimentBoard.style.removeProperty("transform");
+        experimentBoardViewport.style.removeProperty("height");
+        return;
+      }
+      const scale = Math.min(1, experimentBoardViewport.clientWidth / experimentBoardDesignWidth);
+      experimentBoard.style.transform = `scale(${scale})`;
+      experimentBoardViewport.style.height = `${Math.ceil(experimentBoard.offsetHeight * scale + 15)}px`;
+    };
+    const requestExperimentBoardScale = () => {
+      if (experimentBoardScaleFrame) cancelAnimationFrame(experimentBoardScaleFrame);
+      experimentBoardScaleFrame = requestAnimationFrame(syncExperimentBoardScale);
+    };
+    window.addEventListener("resize", requestExperimentBoardScale);
+    if ("ResizeObserver" in window && experimentBoardViewport) {
+      const experimentBoardResizeObserver = new ResizeObserver(requestExperimentBoardScale);
+      experimentBoardResizeObserver.observe(experimentBoardViewport);
+    }
+    document.fonts?.ready.then(requestExperimentBoardScale);
+    requestExperimentBoardScale();
+
+    const experimentTabs = [...document.querySelectorAll("[data-experiment]")];
+    const experimentPanels = [...document.querySelectorAll("[data-experiment-panel]")];
+    const experimentQuicknav = document.querySelector(".experiment-quicknav");
+    const setActiveExperiment = (selected) => {
+      experimentTabs.forEach((item) => {
+        const active = item.dataset.experiment === selected;
+        item.classList.toggle("is-active", active);
+        item.setAttribute("aria-selected", String(active));
+      });
+    };
+    experimentTabs.forEach((tab) => tab.addEventListener("click", () => {
+      const selected = tab.dataset.experiment;
+      setActiveExperiment(selected);
+      const targetPanel = experimentPanels.find((panel) => panel.dataset.experimentPanel === selected);
+      targetPanel?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }));
+    let experimentScrollFrame = 0;
+    const syncExperimentFromScroll = () => {
+      experimentScrollFrame = 0;
+      if (!experimentPanels.length) return;
+      const quicknavBottom = experimentQuicknav?.getBoundingClientRect().bottom ?? 0;
+      const activationLine = Math.max(140, quicknavBottom + 24);
+      let currentPanel = experimentPanels[0];
+      experimentPanels.forEach((panel) => {
+        if (panel.getBoundingClientRect().top <= activationLine) currentPanel = panel;
+      });
+      setActiveExperiment(currentPanel.dataset.experimentPanel);
+    };
+    const requestExperimentScrollSync = () => {
+      if (experimentScrollFrame) return;
+      experimentScrollFrame = setTimeout(syncExperimentFromScroll, 80);
+    };
+    window.addEventListener("scroll", requestExperimentScrollSync, { passive: true });
+    window.addEventListener("resize", requestExperimentScrollSync);
+    requestExperimentScrollSync();
+    const spatialExperiment = document.querySelector("#panel-q2");
+    const spatialHandInputs = [...document.querySelectorAll('input[name="spatial-hand"]')];
+    const spatialHandPanels = [...document.querySelectorAll("[data-spatial-hand-panel]")];
+    let spatialExperimentNearViewport = false;
+    const resetSpatialVideo = (video) => {
+      video.pause();
+      if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+        try { video.currentTime = 0; } catch (_) {}
+      }
+      const source = video.querySelector("source[data-src]");
+      if (source?.hasAttribute("src")) {
+        source.removeAttribute("src");
+        video.load();
+      }
+    };
+    const bindSpatialVideoHover = (video, panel) => {
+      if (video.dataset.hoverPlaybackBound === "true") return;
+      video.dataset.hoverPlaybackBound = "true";
+      const source = video.querySelector("source[data-src]");
+      if (!source) return;
+      video.preload = "none";
+      video.poster = source.dataset.src
+        .replace("/assets/exp2_spatial_prior/", "/assets/exp2_spatial_prior/posters/")
+        .replace(/\.mp4$/i, ".png");
+      video.addEventListener("pointerenter", () => {
+        if (!spatialExperimentNearViewport || panel.hidden) return;
+        if (!source.hasAttribute("src")) {
+          source.src = source.dataset.src;
+          video.load();
+        }
+        video.play().catch(() => {});
+      });
+      video.addEventListener("pointerleave", () => resetSpatialVideo(video));
+      video.addEventListener("pointercancel", () => resetSpatialVideo(video));
+    };
+    const prepareSpatialVideos = (panel) => {
+      if (!panel || panel.dataset.videosPrepared === "true") return;
+      panel.querySelectorAll("video").forEach((video) => bindSpatialVideoHover(video, panel));
+      panel.dataset.videosPrepared = "true";
+    };
+    const syncSpatialVideoPlayback = () => {
+      spatialHandPanels.forEach((panel) => {
+        if (!spatialExperimentNearViewport || panel.hidden) {
+          panel.querySelectorAll("video").forEach(resetSpatialVideo);
+        }
+      });
+    };
+    const setSpatialHand = (selectedHand) => {
+      spatialHandInputs.forEach((input) => {
+        input.checked = input.value === selectedHand;
+      });
+      spatialHandPanels.forEach((panel) => {
+        const active = panel.dataset.spatialHandPanel === selectedHand;
+        panel.hidden = !active;
+        panel.setAttribute("aria-hidden", String(!active));
+        if (active) prepareSpatialVideos(panel);
+      });
+      syncSpatialVideoPlayback();
+    };
+    spatialHandInputs.forEach((input) => input.addEventListener("change", () => {
+      if (input.checked) setSpatialHand(input.value);
+    }));
+    if (spatialExperiment && "IntersectionObserver" in window) {
+      const spatialObserver = new IntersectionObserver(([entry]) => {
+        spatialExperimentNearViewport = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          spatialHandPanels.forEach(prepareSpatialVideos);
+        }
+        syncSpatialVideoPlayback();
+      }, { rootMargin: "240px 0px", threshold: .01 });
+      spatialObserver.observe(spatialExperiment);
+    } else if (spatialExperiment) {
+      spatialExperimentNearViewport = true;
+    }
+    setSpatialHand(spatialHandInputs.find((input) => input.checked)?.value || "dh3");
+    const cognitiveVideoInputs = [...document.querySelectorAll('input[name="cognitive-video-hand"]')];
+    const cognitiveVideoPanels = [...document.querySelectorAll("[data-cognitive-video-hand]")];
+    const resetCognitiveVideo = (video) => {
+      if (!video) return;
+      video.pause();
+      delete video.dataset.viewportResume;
+      if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+        try { video.currentTime = 0; } catch (_) {}
+      }
+    };
+    const restartCognitiveVideo = (video) => {
+      if (!video) return;
+      if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+        try { video.currentTime = 0; } catch (_) {}
+      }
+      requestManagedVideoPlay(video);
+    };
+    const setCognitiveVideoHand = (selectedHand) => {
+      cognitiveVideoInputs.forEach((input) => {
+        input.checked = input.value === selectedHand;
+      });
+      cognitiveVideoPanels.forEach((panel) => {
+        const active = panel.dataset.cognitiveVideoHand === selectedHand;
+        const video = panel.querySelector("video");
+        resetCognitiveVideo(video);
+        panel.hidden = !active;
+        panel.setAttribute("aria-hidden", String(!active));
+        if (active) restartCognitiveVideo(video);
+      });
+    };
+    cognitiveVideoInputs.forEach((input) => input.addEventListener("change", () => {
+      if (input.checked) setCognitiveVideoHand(input.value);
+    }));
+    setCognitiveVideoHand(cognitiveVideoInputs.find((input) => input.checked)?.value || "dh3");
+    const exp5VideoInputs = [...document.querySelectorAll('input[name="exp5-video-platform"]')];
+    const exp5VideoPanels = [...document.querySelectorAll("[data-exp5-video-platform]")];
+    const resetExp5Video = (video) => {
+      if (!video) return;
+      video.pause();
+      delete video.dataset.viewportResume;
+      if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+        try { video.currentTime = 0; } catch (_) {}
+      }
+    };
+    const restartExp5Video = (video) => {
+      if (!video) return;
+      if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+        try { video.currentTime = 0; } catch (_) {}
+      }
+      requestManagedVideoPlay(video);
+    };
+    const setExp5VideoPlatform = (selectedPlatform) => {
+      exp5VideoInputs.forEach((input) => {
+        input.checked = input.value === selectedPlatform;
+      });
+      exp5VideoPanels.forEach((panel) => {
+        const active = panel.dataset.exp5VideoPlatform === selectedPlatform;
+        const video = panel.querySelector("video");
+        resetExp5Video(video);
+        panel.hidden = !active;
+        panel.setAttribute("aria-hidden", String(!active));
+        if (active) restartExp5Video(video);
+      });
+    };
+    exp5VideoInputs.forEach((input) => input.addEventListener("change", () => {
+      if (input.checked) setExp5VideoPlatform(input.value);
+    }));
+    setExp5VideoPlatform("marvin-rohand");
+    const exp5DynamicCarousel = document.querySelector(".exp5-dynamic-carousel");
+    const exp5DynamicGroups = [...document.querySelectorAll("[data-exp5-dynamic-index]")];
+    const exp5DynamicDots = [...document.querySelectorAll("[data-exp5-dynamic-dot]")];
+    let exp5DynamicIndex = 0;
+    let exp5DynamicRequestId = 0;
+    const resetExp5DynamicVideo = (video) => {
+      video.pause();
+      delete video.dataset.viewportResume;
+      if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+        try { video.currentTime = 0; } catch (_) {}
+      }
+    };
+    const playExp5DynamicVideo = (video, group, requestId) => {
+      if (requestId !== exp5DynamicRequestId || group.hidden) return;
+      if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+        try { video.currentTime = 0; } catch (_) {}
+      }
+      requestManagedVideoPlay(video);
+    };
+    const setExp5DynamicGroup = (nextIndex) => {
+      if (!exp5DynamicGroups.length) return;
+      exp5DynamicIndex = (nextIndex + exp5DynamicGroups.length) % exp5DynamicGroups.length;
+      const requestId = ++exp5DynamicRequestId;
+      exp5DynamicGroups.forEach((group, index) => {
+        const active = index === exp5DynamicIndex;
+        group.hidden = !active;
+        group.setAttribute("aria-hidden", String(!active));
+        group.querySelectorAll("video").forEach((video) => {
+          resetExp5DynamicVideo(video);
+          if (active) playExp5DynamicVideo(video, group, requestId);
+        });
+      });
+      exp5DynamicDots.forEach((dot, index) => {
+        const active = index === exp5DynamicIndex;
+        dot.classList.toggle("is-active", active);
+        dot.setAttribute("aria-pressed", String(active));
+      });
+    };
+    document.querySelector(".exp5-dynamic-prev")?.addEventListener("click", () => setExp5DynamicGroup(exp5DynamicIndex - 1));
+    document.querySelector(".exp5-dynamic-next")?.addEventListener("click", () => setExp5DynamicGroup(exp5DynamicIndex + 1));
+    exp5DynamicDots.forEach((dot) => dot.addEventListener("click", () => setExp5DynamicGroup(Number(dot.dataset.exp5DynamicDot))));
+    exp5DynamicCarousel?.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        setExp5DynamicGroup(exp5DynamicIndex - 1);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        setExp5DynamicGroup(exp5DynamicIndex + 1);
+      }
+    });
+    setExp5DynamicGroup(0);
+    const temporalCarouselItems = [
+      { src: "/assets/exp4_temporal_prior/tracking_1.mp4", poster: "/assets/exp4_temporal_prior/tracking_1_poster.jpg", label: "Tracking 1" },
+      { src: "/assets/exp4_temporal_prior/tracking_2.mp4", poster: "/assets/exp4_temporal_prior/tracking_2_poster.jpg", label: "Tracking 2" },
+      { src: "/assets/exp4_temporal_prior/tracking_3.mp4", poster: "/assets/exp4_temporal_prior/tracking_3_poster.jpg", label: "Tracking 3" },
+      { src: "/assets/exp4_temporal_prior/tracking_4.mp4", poster: "/assets/exp4_temporal_prior/tracking_4_poster.jpg", label: "Tracking 4" }
+    ];
+    const temporalCarouselVideo = document.querySelector("#temporal-carousel-video");
+    const temporalCarouselSource = temporalCarouselVideo?.querySelector("source");
+    const temporalCarouselDots = [...document.querySelectorAll("[data-temporal-video-index]")];
+    let temporalCarouselIndex = 0;
+    let temporalCarouselRequestId = 0;
+    const playTemporalCarouselFromStart = (requestId = temporalCarouselRequestId) => {
+      if (!temporalCarouselVideo || requestId !== temporalCarouselRequestId) return;
+      temporalCarouselVideo.currentTime = 0;
+      requestManagedVideoPlay(temporalCarouselVideo);
+    };
+    const setTemporalCarouselVideo = (nextIndex) => {
+      if (!temporalCarouselVideo || !temporalCarouselSource) return;
+      temporalCarouselIndex = (nextIndex + temporalCarouselItems.length) % temporalCarouselItems.length;
+      const item = temporalCarouselItems[temporalCarouselIndex];
+      const nextSource = new URL(item.src, location.href).href;
+      if (temporalCarouselVideo.currentSrc === nextSource) {
+        playTemporalCarouselFromStart();
+        return;
+      }
+      const requestId = ++temporalCarouselRequestId;
+      temporalCarouselVideo.pause();
+      temporalCarouselVideo.poster = item.poster;
+      temporalCarouselSource.src = item.src;
+      temporalCarouselVideo.setAttribute("aria-label", `Temporal prior tracking video ${temporalCarouselIndex + 1} of ${temporalCarouselItems.length}`);
+      temporalCarouselVideo.addEventListener("canplay", () => playTemporalCarouselFromStart(requestId), { once: true });
+      temporalCarouselVideo.load();
+      temporalCarouselDots.forEach((dot, index) => {
+        const active = index === temporalCarouselIndex;
+        dot.classList.toggle("is-active", active);
+        dot.setAttribute("aria-pressed", String(active));
+      });
+    };
+    document.querySelector(".temporal-carousel-prev")?.addEventListener("click", () => setTemporalCarouselVideo(temporalCarouselIndex - 1));
+    document.querySelector(".temporal-carousel-next")?.addEventListener("click", () => setTemporalCarouselVideo(temporalCarouselIndex + 1));
+    temporalCarouselDots.forEach((dot) => dot.addEventListener("click", () => setTemporalCarouselVideo(Number(dot.dataset.temporalVideoIndex))));
+    document.querySelector(".temporal-video-carousel")?.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        setTemporalCarouselVideo(temporalCarouselIndex - 1);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        setTemporalCarouselVideo(temporalCarouselIndex + 1);
+      }
+    });
+    if (temporalCarouselVideo) {
+      if (temporalCarouselVideo.readyState >= 3) playTemporalCarouselFromStart();
+      else temporalCarouselVideo.addEventListener("canplay", playTemporalCarouselFromStart, { once: true });
+    }
+    const cognitiveCases = {
+      "pan": { name: "Pan", instruction: "Use the pan to saute vegetables.", part: "handle", grasp: "Medium Wrap" },
+      "spray-bottle": { name: "Spray Bottle", instruction: "Spray the windows with the spray bottle.", part: "trigger", grasp: "Index Finger Extension" },
+      "garlic-press": { name: "Garlic Press", instruction: "Crush ginger root by squeezing the garlic press.", part: "handles", grasp: "Small Diameter" },
+      "scissors": { name: "Scissors", instruction: "Cut the paper with the scissors.", part: "finger holes", grasp: "Distal Type" },
+      "ice-scraper": { name: "Ice Scraper", instruction: "Scrape the icy patch with the ice scraper.", part: "elongated handle", grasp: "Light Tool" },
+      "mug": { name: "Mug", instruction: "Use the mug to pour water into the sink.", part: "handle", grasp: "Medium Wrap" },
+      "tongs": { name: "Tongs", instruction: "Pick up the hot coal with the tongs.", part: "handles", grasp: "Light Tool" },
+      "paint-roller": { name: "Paint Roller", instruction: "Use the paint roller to paint the wall.", part: "handles", grasp: "Medium Wrap" },
+      "basket": { name: "Basket", instruction: "Please hand over the basket so I can fill it.", part: "looped handle", grasp: "Fixed Hook" },
+      "can-opener": { name: "Can Opener", instruction: "Open the canned food with the can opener.", part: "top", grasp: "Medium Wrap" },
+      "sponge": { name: "Sponge", instruction: "Wipe the table dry with the sponge.", part: "body", grasp: "Palmar Pinch" },
+      "ladle": { name: "Ladle", instruction: "Stir the stew gently using the ladle.", part: "handles", grasp: "Medium Wrap" },
+      "baster": { name: "Baster", instruction: "Pour the juices from the baster into a bowl.", part: "rubber bulb", grasp: "Palmar Pinch" },
+      "duster": { name: "Duster", instruction: "Dust the shelves with the duster.", part: "elongated handle", grasp: "Light Tool" },
+      "pepper-grinder": { name: "Pepper Grinder", instruction: "Twist the pepper grinder to dispense seasoning.", part: "top", grasp: "Tripod" },
+      "brush": { name: "Brush", instruction: "Brush the horse using the brush.", part: "handle", grasp: "Light Tool" }
+    };
+    const cognitiveCaseSelect = document.querySelector("#cognitive-case-select");
+    const cognitiveInstruction = document.querySelector("#cognitive-instruction");
+    const cognitiveInputImage = document.querySelector("#cognitive-input-image");
+    const cognitivePartImage = document.querySelector("#cognitive-part-image");
+    const cognitiveGraspImage = document.querySelector("#cognitive-grasp-image");
+    const cognitivePartLabel = document.querySelector("#cognitive-part-label");
+    const cognitiveGraspLabel = document.querySelector("#cognitive-grasp-label");
+    let cognitiveLabelFrame = 0;
+    const syncCognitiveLabelOffsets = () => {
+      cognitiveLabelFrame = 0;
+      const referenceCard = cognitivePartImage?.closest(".cognitive-result-card");
+      const referenceOffset = referenceCard
+        ? Math.max(0, cognitivePartImage.getBoundingClientRect().top - referenceCard.getBoundingClientRect().top)
+        : 0;
+      document.querySelectorAll(".cognitive-result-card").forEach((card) => {
+        const label = card.querySelector("figcaption strong");
+        if (!label) return;
+        card.style.setProperty("--image-top-gap", `${referenceOffset}px`);
+      });
+    };
+    const requestCognitiveLabelSync = () => {
+      if (cognitiveLabelFrame) cancelAnimationFrame(cognitiveLabelFrame);
+      cognitiveLabelFrame = requestAnimationFrame(syncCognitiveLabelOffsets);
+    };
+    [cognitiveInputImage, cognitivePartImage, cognitiveGraspImage].forEach((image) => {
+      image?.addEventListener("load", requestCognitiveLabelSync);
+    });
+    window.addEventListener("resize", requestCognitiveLabelSync);
+    if ("ResizeObserver" in window) {
+      const cognitiveResizeObserver = new ResizeObserver(requestCognitiveLabelSync);
+      const cognitiveViewer = document.querySelector(".cognitive-viewer");
+      if (cognitiveViewer) cognitiveResizeObserver.observe(cognitiveViewer);
+    }
+    const setCognitiveCase = (caseId) => {
+      const item = cognitiveCases[caseId] || cognitiveCases.pan;
+      const assetRoot = `/assets/exp3_cognitive_prior/${caseId}`;
+      cognitiveInstruction.textContent = `“${item.instruction}”`;
+      cognitiveInputImage.src = `${assetRoot}/input.png`;
+      cognitiveInputImage.alt = `Input image of ${item.name}`;
+      cognitivePartImage.src = `${assetRoot}/functional-part.png`;
+      cognitivePartImage.alt = `${item.part} selected as the functional part of ${item.name}`;
+      cognitiveGraspImage.src = `${assetRoot}/grasp-type.png`;
+      cognitiveGraspImage.alt = `${item.grasp} grasp type for ${item.name}`;
+      cognitivePartLabel.textContent = item.part;
+      cognitiveGraspLabel.textContent = item.grasp;
+      requestCognitiveLabelSync();
+    };
+    cognitiveCaseSelect?.addEventListener("change", () => setCognitiveCase(cognitiveCaseSelect.value));
+    requestCognitiveLabelSync();
+  </script>
+</body>
+</html>
