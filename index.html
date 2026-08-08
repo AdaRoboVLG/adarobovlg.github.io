@@ -1394,16 +1394,29 @@
     const spatialHandInputs = [...document.querySelectorAll('input[name="spatial-hand"]')];
     const spatialHandPanels = [...document.querySelectorAll("[data-spatial-hand-panel]")];
     let spatialExperimentNearViewport = false;
-    const resetSpatialVideo = (video) => {
+    const resetSpatialVideo = (video, unload = false) => {
       video.pause();
       if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
         try { video.currentTime = 0; } catch (_) {}
       }
       const source = video.querySelector("source[data-src]");
-      if (source?.hasAttribute("src")) {
+      if (unload && source?.hasAttribute("src")) {
         source.removeAttribute("src");
+        video.preload = "none";
         video.load();
       }
+    };
+    const preloadSpatialVideos = (panel) => {
+      if (!panel || panel.hidden || !spatialExperimentNearViewport) return;
+      panel.querySelectorAll("video").forEach((video) => {
+        const source = video.querySelector("source[data-src]");
+        if (!source) return;
+        video.preload = "metadata";
+        if (!source.hasAttribute("src")) {
+          source.src = source.dataset.src;
+          video.load();
+        }
+      });
     };
     const bindSpatialVideoHover = (video, panel) => {
       if (video.dataset.hoverPlaybackBound === "true") return;
@@ -1433,7 +1446,9 @@
     const syncSpatialVideoPlayback = () => {
       spatialHandPanels.forEach((panel) => {
         if (!spatialExperimentNearViewport || panel.hidden) {
-          panel.querySelectorAll("video").forEach(resetSpatialVideo);
+          panel.querySelectorAll("video").forEach((video) => resetSpatialVideo(video, true));
+        } else {
+          preloadSpatialVideos(panel);
         }
       });
     };

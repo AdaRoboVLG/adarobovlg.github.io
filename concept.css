@@ -2276,7 +2276,7 @@ video:-webkit-full-screen {
   .question-copy small { font-size: 15px; }
   .experiment-quicknav {
     position: sticky;
-    top: 62px;
+    top: 70px;
     z-index: 12;
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -2301,8 +2301,8 @@ video:-webkit-full-screen {
     letter-spacing: .02em;
     white-space: nowrap;
   }
-  .experiment-results { scroll-margin-top: 122px; margin-top: 24px; padding-top: 32px; }
-  .experiment-panel { scroll-margin-top: 122px; }
+  .experiment-results { scroll-margin-top: 130px; margin-top: 24px; padding-top: 32px; }
+  .experiment-panel { scroll-margin-top: 130px; }
   .experiment-panel + .experiment-panel { margin-top: 72px; padding-top: 48px; }
   .spatial-hand-switcher {
     grid-template-columns: minmax(250px, 1.35fr) repeat(3, minmax(104px, .85fr));
