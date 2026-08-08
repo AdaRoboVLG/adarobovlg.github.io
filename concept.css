@@ -2481,3 +2481,50 @@ video:-webkit-full-screen {
     white-space: nowrap;
   }
 }
+
+/* Keep long-form content compact and readable on phones. Components that
+   already scale proportionally with clamp(), vw, cqi, or transforms are left
+   unchanged. */
+@media (max-width: 760px) {
+  .section-label {
+    font-size: 17px;
+    letter-spacing: .08em;
+  }
+
+  .panel-copy > span {
+    font-size: 16px;
+    letter-spacing: .04em;
+  }
+
+  .panel-copy h3 {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .abstract-body,
+  .section-intro,
+  .method-component-copy,
+  .panel-copy p,
+  .panel-copy .cognitive-evaluation-intro,
+  .spatial-benchmark-intro,
+  #panel-q3 > h3 + p,
+  .temporal-tracking-copy {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .experiment-panel .spatial-benchmark figcaption,
+  .experiment-panel .cognitive-benchmark > figcaption,
+  .experiment-panel .cognitive-target-benchmark > figcaption,
+  .experiment-panel .temporal-benchmark > figcaption {
+    font-size: 15px;
+    line-height: 1.35;
+  }
+
+  .exp5-disturbance-heading strong,
+  .experiment-panel .exp5-disturbance-card figcaption,
+  .exp6-video-heading strong,
+  .temporal-carousel-heading strong {
+    font-size: 15px;
+  }
+}
